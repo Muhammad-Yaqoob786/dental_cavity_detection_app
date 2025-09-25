@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 
+import 'package:tensorflow_demo/services/tensorflow_service.dart';
 import '../../apibase/api_service_type.dart';
 import '../../models/create_session_dm.dart';
 import '../../services/navigation_service.dart';
@@ -37,69 +38,80 @@ abstract class _HomeScreenStore with Store {
 
   final int _totalPages = 10;
 
-  void initialize() {
-    unawaited(getUnsplashPhotos());
-    scrollController.addListener(
-      () {
-        final maxScroll = scrollController.position.maxScrollExtent;
-        final currentScroll = scrollController.position.pixels;
-        if (currentScroll == maxScroll) {
-          fetchMore();
-        }
-      },
-    );
-  }
+  // void initialize() {
+  //   unawaited(getUnsplashPhotos());
+  //   scrollController.addListener(
+  //     () {
+  //       final maxScroll = scrollController.position.maxScrollExtent;
+  //       final currentScroll = scrollController.position.pixels;
+  //       if (currentScroll == maxScroll) {
+  //         fetchMore();
+  //       }
+  //     },
+  //   );
+  // }
 
   Future<void> refresh() async {
     _currentPage = 1;
     photos.clear();
-    await getUnsplashPhotos();
+    // await getUnsplashPhotos();
   }
 
-  Future<void> getUnsplashPhotos() async {
-    unsplashPhotosState = NetworkState.loading;
-    try {
-      final result = await ApiServiceType.unsplashApiService.searchPhotos(
-        page: _currentPage,
-        search: searchQuery,
-      );
-      _currentPage++;
-      photos.addAll(result.results);
-      unsplashPhotosState = NetworkState.success;
-    } catch (e, s) {
-      log('Error: $e', name: 'getUnsplashPhotos()');
-      log('Stacktrace: $s', name: 'getUnsplashPhotos()');
-      unsplashPhotosState = NetworkState.error;
-    }
-  }
+  // Future<void> getUnsplashPhotos() async {
+  //   unsplashPhotosState = NetworkState.loading;
+  //   try {
+  //     final result = await ApiServiceType.unsplashApiService.searchPhotos(
+  //       page: _currentPage,
+  //       search: searchQuery,
+  //     );
+  //     _currentPage++;
+  //     photos.addAll(result.results);
+  //     unsplashPhotosState = NetworkState.success;
+  //   } catch (e, s) {
+  //     log('Error: $e', name: 'getUnsplashPhotos()');
+  //     log('Stacktrace: $s', name: 'getUnsplashPhotos()');
+  //     unsplashPhotosState = NetworkState.error;
+  //   }
+  // }
 
-  Future<void> fetchMore() async {
-    if (paginatedState.isLoading || _currentPage > _totalPages) return;
+  // Future<void> fetchMore() async {
+  //   if (paginatedState.isLoading || _currentPage > _totalPages) return;
 
-    paginatedState = NetworkState.loading;
-    try {
-      final result = await ApiServiceType.unsplashApiService.searchPhotos(
-        page: _currentPage,
-        search: searchQuery,
-      );
-      _currentPage++;
-      result.results
-        ..removeAt(0)
-        ..removeAt(0);
-      photos.addAll(result.results);
-      paginatedState = NetworkState.success;
-    } catch (e, s) {
-      log('Error: $e', name: 'getUnsplashPhotos()');
-      log('Stacktrace: $s', name: 'getUnsplashPhotos()');
-      paginatedState = NetworkState.error;
-    }
-  }
+  //   paginatedState = NetworkState.loading;
+  //   try {
+  //     final result = await ApiServiceType.unsplashApiService.searchPhotos(
+  //       page: _currentPage,
+  //       search: searchQuery,
+  //     );
+  //     _currentPage++;
+  //     result.results
+  //       ..removeAt(0)
+  //       ..removeAt(0);
+  //     photos.addAll(result.results);
+  //     paginatedState = NetworkState.success;
+  //   } catch (e, s) {
+  //     log('Error: $e', name: 'getUnsplashPhotos()');
+  //     log('Stacktrace: $s', name: 'getUnsplashPhotos()');
+  //     paginatedState = NetworkState.error;
+  //   }
+  // }
 
   Future<void> analyzeNetworkImage(String url) async {
     final response = await NetworkAssetBundle(Uri.parse(url)).load(url);
+    Uint8List imageBytes = response.buffer.asUint8List();
+
+    // TensorFlow ko initialize karo aur image analyse karo
+    await TensorflowService.ssdMobileNet.initialize();
+    var result = TensorflowService.ssdMobileNet.analyseImage(imageBytes);
+    // result mein hogi detected objects, labels etc.
+
+    // Phir navigate karo analysed screen pe, arguments mein imageBytes + result
     NavigationService.instance.pushNamed(
       AppRoutes.photoAnalyzedScreen,
-      arguments: response.buffer.asUint8List(),
+      arguments: {
+        'imageBytes': imageBytes,
+        'detectedObjects': result.detectedObjects, // jo data model hai
+      },
     );
   }
 

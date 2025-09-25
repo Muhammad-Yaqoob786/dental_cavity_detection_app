@@ -38,7 +38,8 @@ dependencies:
   tflite_flutter: 0.11.0
   image: ^4.5.2
   image_picker: ^1.1.2
-  camera: ^0.10.6
+  camera: ^0.11.2
+  # camera_android_camerax: ^0.6.21+1
   retrofit: ^4.1.0
   json_annotation: ^4.8.1
   dio: ^5.4.3+1
@@ -56,9 +57,9 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.4.9
-  retrofit_generator: ^8.1.0
+  retrofit_generator: ^10.0.5
   json_serializable: ^6.7.1
   mobx_codegen: ^2.6.1
 
@@ -75,9 +76,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/model/
+    - assets/models/
     - assets/label/
     - assets/vectors/
+    - assets/models/dental_disease_model.tflite
+    - assets/models/dental_disease_labels.txt
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

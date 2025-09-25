@@ -89,4 +89,6 @@ class TensorflowService {
       label: _labels ?? [],
     );
   }
+
+  // final interpreter = await Interpreter.fromAsset('models/dental_disease_model.tflite');
 }

@@ -88,3 +88,6 @@ scissors
 teddy bear
 hair drier
 toothbrush
+cavity
+gum_disease
+root_canal

@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
+
   Widget build(BuildContext context) {
     ScreenParams.screenSize = MediaQuery.sizeOf(context);
     final homeScreenStore = context.read<HomeScreenStore>();
@@ -57,50 +58,50 @@ class HomeScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: homeScreenStore.scrollController,
-                  children: [
-                    Observer(
-                      builder: (_) => GridView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: homeScreenStore.photos.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 3 / 4,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                        ),
-                        itemBuilder: (_, index) {
-                          final urls = homeScreenStore.photos[index].urls;
-                          return GestureDetector(
-                            onTap: () async =>
-                                homeScreenStore.analyzeNetworkImage(
-                              urls.small,
-                            ),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(16),
-                              ),
-                              child: Image.network(
-                                urls.small,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Observer(
-                      builder: (_) => Visibility(
-                        visible: homeScreenStore.paginatedState.isLoading,
-                        child: const Center(
-                          child: RepaintBoundary(
-                            child: CircularProgressIndicator(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  // children: [
+                  //   Observer(
+                  //     builder: (_) => GridView.builder(
+                  //       shrinkWrap: true,
+                  //       primary: false,
+                  //       itemCount: homeScreenStore.photos.length,
+                  //       gridDelegate:
+                  //           const SliverGridDelegateWithFixedCrossAxisCount(
+                  //         crossAxisCount: 2,
+                  //         childAspectRatio: 3 / 4,
+                  //         crossAxisSpacing: 16,
+                  //         mainAxisSpacing: 16,
+                  //       ),
+                  //       itemBuilder: (_, index) {
+                  //         final urls = homeScreenStore.photos[index].urls;
+                  //         return GestureDetector(
+                  //           onTap: () async =>
+                  //               homeScreenStore.analyzeNetworkImage(
+                  //             urls.small,
+                  //           ),
+                  //           child: ClipRRect(
+                  //             borderRadius: const BorderRadius.all(
+                  //               Radius.circular(16),
+                  //             ),
+                  //             child: Image.network(
+                  //               urls.small,
+                  //               fit: BoxFit.cover,
+                  //             ),
+                  //           ),
+                  //         );
+                  //       },
+                  //     ),
+                  //   ),
+                  //   Observer(
+                  //     builder: (_) => Visibility(
+                  //       visible: homeScreenStore.paginatedState.isLoading,
+                  //       child: const Center(
+                  //         child: RepaintBoundary(
+                  //           child: CircularProgressIndicator(),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ],
                 ),
               ),
           };
@@ -108,4 +109,5 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+  
 }

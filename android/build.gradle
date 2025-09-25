@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.8.22'
+    ext.kotlin_version = '2.0.0'
     repositories {
         google()
         mavenCentral()
@@ -7,6 +7,7 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:8.6.0'
     }
 }
 
@@ -24,6 +25,21 @@ subprojects {
 subprojects {
     project.evaluationDependsOn(':app')
 }
+subprojects { subproject ->
+    subproject.plugins.whenPluginAdded { plugin ->
+        if (plugin.class.simpleName == 'KotlinAndroidPluginWrapper' || plugin.class.simpleName == 'KotlinKaptPlugin') {
+            subproject.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                    apiVersion = "2.0"
+                    languageVersion = "2.0"
+                }
+            }
+        }
+    }
+}
+
+
 
 tasks.register("clean", Delete) {
     delete rootProject.buildDir

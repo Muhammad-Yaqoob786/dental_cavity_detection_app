@@ -8,16 +8,16 @@ import 'api_service.dart';
 class ApiServiceType {
   const ApiServiceType._();
 
-  static final ApiService unsplashApiService = _getApiService(
-    options: BaseOptions(
-      baseUrl: 'https://api.unsplash.com',
-      headers: {
-        'Accept-Version': 'v1',
-        // TODO: Add your Unsplash API key
-        'Authorization': 'Client-ID YOUR_API_KEY',
-      },
-    ),
-  );
+  // static final ApiService unsplashApiService = _getApiService(
+  //   options: BaseOptions(
+  //     baseUrl: 'https://api.unsplash.com',
+  //     headers: {
+  //       'Accept-Version': 'v1',
+  //       // TODO: Add your Unsplash API key
+  //       'Authorization': 'Client-ID YOUR_API_KEY',
+  //     },
+  //   ),
+  // );
 
   static ApiService _getApiService({
     required BaseOptions options,

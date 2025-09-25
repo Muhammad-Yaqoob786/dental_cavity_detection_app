@@ -22,13 +22,13 @@ class Routes {
     }
 
     switch (settings.name) {
-      case AppRoutes.homeScreen:
-        return getRoute(
-          widget: Provider(
-            create: (_) => HomeScreenStore()..initialize(),
-            child: const HomeScreen(),
-          ),
-        );
+      // case AppRoutes.homeScreen:
+      //   return getRoute(
+      //     widget: Provider(
+      //       create: (_) => HomeScreenStore()..initialize(),
+      //       child: const HomeScreen(),
+      //     ),
+      //   );
       case AppRoutes.photoAnalyzedScreen:
         final imageBytes = settings.arguments as Uint8List?;
 
