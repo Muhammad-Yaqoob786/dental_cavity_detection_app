@@ -6,9 +6,10 @@ class AppConstants {
   // static const String ssdMobileNetV1 = 'assets/model/ssd_mobilenet_v1.tflite';
   // static const String ssdMobileNetV1LabelPath = 'assets/label/labels.txt';
 
-  static const String ssdMobileNetV1 = 'models/dental_disease_model.tflite';
+  static const String ssdMobileNetV1 =
+      'assets/models/dental_disease_model.tflite';
   static const String ssdMobileNetV1LabelPath =
-      'models/dental_disease_labels.txt';
+      'assets/models/dental_disease_labels.txt';
 
   static const int ssdCompatibleImageHeight = 300;
   static const int ssdCompatibleImageWidth = 300;
